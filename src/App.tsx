@@ -122,9 +122,9 @@ function App() {
           layout={{
             title: { text: '3D Surface Plot with Gradient Visualization' },
             scene: {
-              xaxis: { title: 'x' },
-              yaxis: { title: 'y' },
-              zaxis: { title: 'f' },
+              xaxis: { title: { text: 'x' }},
+              yaxis: { title: { text: 'y' }},
+              zaxis: { title: { text: 'f' } },
             },
             autosize: true,
             datarevision: new Date().getTime(), // to force re-render on data change

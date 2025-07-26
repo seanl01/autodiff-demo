@@ -4,4 +4,5 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
   ],
+  base: "https://seanl01.github.io/autodiff-demo/"
 })
