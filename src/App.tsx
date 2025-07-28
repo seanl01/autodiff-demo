@@ -1,6 +1,7 @@
 import Plot from 'react-plotly.js';
 import makeGradFn from 'autodiff-ts';
 import { useState, useEffect } from 'react';
+import githubMarkUrl from "./github-mark.svg";
 
 function generateSurfaceData(
   xRange: [number, number], // [min, max]
@@ -26,6 +27,7 @@ function generateSurfaceData(
 function App() {
   const [fnText, setFnText] = useState('x ** 2 + y ** 2');
   const [data, setData] = useState<any>(null);
+  const [isCopied, setIsCopied] = useState<boolean>(false);
 
   useEffect(() => {
     try {
@@ -55,13 +57,31 @@ function App() {
   const handleFunctionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFnText(e.target.value);
   };
+
+  const handleCopy = () => {
+    setIsCopied(true);
+    navigator.clipboard.writeText("npm install autodiff-ts")
+
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 2000)
+  }
   if (!data) return <div>Loading...</div>;
 
   return (
     <div className='w-full flex flex-col h-[100vh]'>
-      <div className='w-full text-xl text-center p-6'>
-        <h2 className='text-3xl font-bold mb-3'>autodiff-ts demo</h2>
-        <label htmlFor="function-input">Enter function f(x,y) = </label>
+        <a className='absolute top-3 right-3' href='https://github.com/seanl01/autodiff-ts'>
+          <img className='w-8 opacity-50 hover:opacity-100' src={githubMarkUrl}></img>
+        </a>
+      <div className='w-full text-xl text-center p-6 xs:mt-0 mt-8'>
+        <section className='text-left relative grid place-self-center md:text-2xl font-bold font-mono bg-gray-100 rounded-lg py-4 px-8'>npm install autodiff-ts
+          <figure className='absolute right-0 top-0 z-10 text-xs font-semibold p-0.5 text-gray-500 bg-gray-200 rounded-lg cursor-default'
+            onClick={handleCopy}>
+              {isCopied ? "Copied!": "Copy"}
+            </figure>
+        </section>
+        <p className='mt-6'>Visualise the gradients of</p>
+        <label htmlFor="function-input">function f(x,y) = </label>
         <input
           id="function-input"
           type="text"
@@ -120,7 +140,7 @@ function App() {
             }
           ]}
           layout={{
-            title: { text: '3D Surface Plot with Gradient Visualization' },
+            title: { text: 'f(x, y) and partial gradients graphed in 3D' },
             scene: {
               xaxis: { title: { text: 'x' }},
               yaxis: { title: { text: 'y' }},
